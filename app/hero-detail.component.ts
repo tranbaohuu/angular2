@@ -23,6 +23,7 @@ import { Hero } from './hero';
 <h1>{{hero.id}}</h1><h2>{{hero.name}} details!</h2>
   <input [(ngModel)]="hero.name" placeholder="name"/>
 </div>
+<button (click)="save()">Save</button>
 <button (click)="goBack()">Back</button>
 `
 })
@@ -47,6 +48,11 @@ export class HeroDetailComponent implements OnInit {
         //tạo nút back
         this.location.back();
     };
+
+    save(): void {
+        //truyền vào dấu () => hero hình như dấu  () là rỗng không khai báo gì cả để chạy các function khác sau khi cập nhật xong
+        this.heroService.update(this.hero).then(()=> this.goBack());
+    }
 }
 
 

@@ -1,6 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 
-import { Hero,News } from './hero';
+import { Hero, News } from './hero';
 import { HEROES } from './mock-heroes';
 
 import { Headers, Http } from '@angular/http';
@@ -46,11 +46,11 @@ export class HeroService {
     private heroesUrl = 'app/heroes';  // URL to web api
 
     private apiURL = 'http://localhost:11210/api/news';  // URL to web api
-    
+
 
     constructor(private http: Http) { }
 
-    //getHeroes sử dụng HTTP
+    //getHeroes sử dụng HTTP từ khóa để dùng http là this.http.(tên put/get/delete/post)
     getHeroes(): Promise<Hero[]> {
         return this.http.get(this.heroesUrl)
             .toPromise()
@@ -58,7 +58,23 @@ export class HeroService {
             .catch(this.handleError);
     }
 
+    //khai báo header để nó hiểu là file json
+    private headers = new Headers({ 'Content-Type': 'application/json' });
 
+    update(hero: Hero): Promise<Hero> {
+        //cấu trúc url ${} chưa biết là gì
+        const url = `${this.heroesUrl}/${hero.id}`;
+        return this.http
+            //stringify là chuyễn hết chuối json thành 1 chuỗi string thẳng
+            .put(url, JSON.stringify(hero), { headers: this.headers })
+            .toPromise()
+            //truyền vào dấu () => hero hình như dấu  () là rỗng không khai báo gì cả để chạy các function khác sau khi cập nhật xong
+            //then thường là làm gì sau khi cập nhật thành công
+            //=> trả về là kiểu hero
+            .then(() => hero)
+            //catch ở đây bắt lỗi như try catch
+            .catch(this.handleError);
+    }
 
     // getHeroesNews(): Promise<News[]> {
     //     return this.http.get(this.apiURL)
@@ -66,6 +82,29 @@ export class HeroService {
     //         .then(response => response.json().data as News[])
     //         .catch(this.handleError);
     // }
+
+
+
+    //angular 2 gọi api RESTful với put/post/get/delete....
+    create(name: string): Promise<Hero> {
+        return this.http
+            .post(this.heroesUrl, JSON.stringify({ name: name }), { headers: this.headers })
+            .toPromise()
+            .then(res => res.json().data)
+            .catch(this.handleError);
+    }
+
+
+
+    delete(id: number): Promise<void> {
+        const url = `${this.heroesUrl}/${id}`;
+        return this.http.delete(url, { headers: this.headers })
+            .toPromise()
+            .then(() => null)
+            .catch(this.handleError);
+    }
+
+
 
     private handleError(error: any): Promise<any> {
         console.error('An error occurred', error); // for demo purposes only
