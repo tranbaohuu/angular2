@@ -27,6 +27,12 @@ import { HttpModule } from '@angular/http';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './in-memory-data.service';
 
+import { HeroSearchComponent } from './hero-search.component';
+
+//rxjs = react extensions js sử dụng để làm thanh search với overseable hình như là khi gõ vào nó sẽ auto filter giống kiểu jquery auto suggestions
+
+import './rxjs-extensions';
+
 @NgModule({
     imports: [BrowserModule, FormsModule,
         //RouterModule.forRoot([
@@ -66,7 +72,7 @@ import { InMemoryDataService } from './in-memory-data.service';
     ]
     ,
     //import ở declare để khai báo số class .ts sử dụng cho trang hiển thị
-    declarations: [TranHeroes, HeroDetailComponent, HeroesComponent, Page1, DashboardComponent],
+    declarations: [TranHeroes, HeroDetailComponent, HeroesComponent, Page1, DashboardComponent,HeroSearchComponent],
     //set bootstrap cho các component
     bootstrap: [TranHeroes],
     //providers như người cung cấp data thường ở đây bỏ vào các hàm select lấy dữ liệu các kiểu

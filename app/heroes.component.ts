@@ -18,6 +18,8 @@ import { OnInit } from '@angular/core';
 //import Router vào
 import { Router } from '@angular/router';
 
+import {HeroSearchComponent} from './hero-search.component'
+
 
 //component hoặc directive của class chính
 //ở trong @component thường chỉ viết các thẻ HTML để render ra web.
